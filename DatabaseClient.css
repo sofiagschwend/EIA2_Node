@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+* {
+	display: block;
+	vertical-align: top;
+	font-family: 'Raleway', Arial;
+}
+
+head {
+	display: none;
+}
+
+
+input[type="radio"], input[type="checkbox"], input[type="number"], label {
+	display: inline;
+}
+
+button {
+	margin:1em 0em;
+}

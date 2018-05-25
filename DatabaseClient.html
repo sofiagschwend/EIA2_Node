@@ -1,0 +1,58 @@
+<!--
+Aufgabe: (Aufgabe 1)
+Name: (Sofia Gschwend)
+Matrikel: (257664)
+Datum: (25.05.2018)
+Hiermit versichere ich, dass ich diesen
+Code selbst geschrieben habe. Er wurde
+nicht kopiert und auch nicht diktiert.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>DatabaseClient</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="DatabaseClient.css" type="text/css" media="screen"/>
+<script src="Interfaces.js" type="text/javascript" charset="utf-8"></script>
+<script src="ProcessForm.js" type="text/javascript" charset="utf-8"></script>
+<script src="Server.js" type="text/javascript" charset="utf-8"></script> <!--  Verbindung herstellen zwischen Server und Eingabemaske -->
+</head>
+<body>	
+	<form action="http://localhost:8100" method="get"> <!-- Befehl Daten an Adresse zu senden mit der Methode get: hängt form daten in URL ein als Request -->
+
+	<fieldset id="input">
+		<legend> Type student data here </legend>
+		<input type="text" name="name" placeholder="name"/>
+		<input type="text" name="firstname" placeholder="firstname"/>
+		<input type="text" name="matrikel" placeholder="matrikel"/>
+		<div>Select your study path:
+			<select name="studypath" id="select">
+				<option value="MKB">MKB</option>
+				<option value="MIB">MIB</option>
+				<option value="OMB">OMB</option>
+			</select>
+		</div>			
+		<input type="number" name="age" placeholder="age" min="1" max="120"/>
+		<input type="radio" name="gender" value="male" id="male"/>
+		<label for="male">Male</label>
+		<input type="radio" name="gender" value="female" id="female"/>
+		<label for="female">Female</label>
+		<button type="button" id="insert">Insert to database</button>
+	</fieldset>
+	
+	<fieldset id="output">
+		<legend> All student data </legend>
+		<button type="button" id="refresh">Refresh</button>
+		<textarea rows="10" cols="90"> </textarea>
+	</fieldset>
+	
+	<fieldset id="search">												<!-- Search field einfügen -->
+	<legend>Search for student by matrikel</legend>
+	<input type="text" name="search" placeholder="matrikel" id="matrikelNr"/>
+	<button type="button" id="searchButton">Search</button>
+	<textarea id="textarea2" rows="7" cols="90"> </textarea>						// searchResult
+	</fieldset>
+	
+</body>
+</html>
