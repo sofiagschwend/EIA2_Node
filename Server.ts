@@ -78,7 +78,7 @@ namespace Server {
             let matrikel: string = obj.matrikel.toString(); 
             let _age: number = obj.age;
             let _gender: boolean = obj.gender;
-            let _studiengang: string = obj.studiengang;  
+            let _studyPath: string = obj.studyPath;  
             let studi: Studi;
             studi = {
                 name: _name,
@@ -86,7 +86,7 @@ namespace Server {
                 matrikel: parseInt(matrikel),
                 age: _age,
                 gender: _gender,
-                studiengang: _studiengang
+                studiengang: _studyPath
             };
 
         studiHomoAssoc[matrikel] = studi;
@@ -103,7 +103,7 @@ namespace Server {
             for (let matrikel in studiHomoAssoc) {  
             let studi: Studi = studiHomoAssoc[matrikel];
             let line: string = matrikel + ": ";
-            line += studi.studiengang + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             console.log(line);
             let data: string = JSON.stringify(line);
