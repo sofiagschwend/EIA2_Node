@@ -10,7 +10,10 @@ var Server;
     let port = process.env.PORT; // Environment f�r Port erstellen
     if (port == undefined)
         port = 8100; // setze ihn auf port 8100 -> �berschreibe Aufg4_Code1
-    let server = Http.createServer();
+    let server = Http.createServer((_request, _response) => {
+        _response.setHeader("content-type", "text/html; charset=utf-8");
+        _response.setHeader("Access-Control-Allow-Origin", "*");
+    });
     server.addListener("listening", handleListen);
     server.addListener("request", handleRequest);
     server.listen(port);
@@ -22,6 +25,7 @@ var Server;
         let query = Url.parse(_request.url, true).query; // Url.parse() Metohde -> wenn false dann Ergebnis "NaN"
         //let a: number = parseInt(query["a"]); das ist Aufg4_Code1
         //let b: number = parseInt(query["b"]);
+        _response.write("");
         // Switch Abfrage um richtige function starten zu k�nnen
         console.log(query["cmd"]); //cmd = short for command
         if (query["cmd"]) {
@@ -33,12 +37,13 @@ var Server;
                     refresh(_response);
                     break;
                 case "search":
-                    (query, _response);
+                    search(query, _response);
                     break;
                 default:
                     flaw();
             }
         }
+        _response.end();
     }
     // case functions Aufrufe
     // case insert
@@ -60,7 +65,6 @@ var Server;
             studyPath: _studyPath
         };
         studiHomoAssoc[matrikel] = studi;
-        _response.setHeader("Access-Control-Allow-Origin", "*");
         _response.write("Daten empfangen");
         _response.end();
     }
@@ -73,7 +77,6 @@ var Server;
             line += studi.gender ? "(M)" : "(F)";
             console.log(line);
             let data = JSON.stringify(line);
-            _response.setHeader("Access-Control-Allow-Origin", "*");
             _response.write(data);
             _response.end();
         }

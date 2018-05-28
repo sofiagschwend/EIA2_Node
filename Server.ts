@@ -17,7 +17,7 @@ namespace Server {
     }
     
     // Struktur des homogenen assoziativen Arrays, bei dem ein Datensatz der Matrikelnummer zugeordnet ist
-    export interface Studis { // homogenes assoziatives Array
+    interface Studis { // homogenes assoziatives Array
          [matrikel: string]: Studi; 
     }
 
@@ -34,7 +34,10 @@ namespace Server {
     if (port == undefined) // wenn Port undefined dann
         port = 8100;        // setze ihn auf port 8100 -> �berschreibe Aufg4_Code1
 
-    let server: Http.Server = Http.createServer();
+    let server: Http.Server = Http.createServer((_request: Http.IncomingMessage, _response: Http.ServerResponse) => {
+        _response.setHeader("content-type", "text/html; charset=utf-8");
+        _response.setHeader("Access-Control-Allow-Origin", "*");
+    });
     server.addListener("listening", handleListen);
     server.addListener("request", handleRequest);
     server.listen(port);
@@ -50,6 +53,8 @@ namespace Server {
         //let a: number = parseInt(query["a"]); das ist Aufg4_Code1
         //let b: number = parseInt(query["b"]);
         
+        _response.write("");
+
         // Switch Abfrage um richtige function starten zu k�nnen
         console.log(query["cmd"]); //cmd = short for command
         if (query ["cmd"]) { // if abfrage wenn cmd true dann entsprechnenden case ausf�hren
@@ -63,13 +68,15 @@ namespace Server {
                     break;
                     
                 case "search":
-                    (query, _response);
+                    search(query, _response);
                     break;
                     
                 default:
                     flaw();
                 }
             }
+
+        _response.end();
         }
         // case functions Aufrufe
         // case insert
@@ -92,8 +99,7 @@ namespace Server {
             };
 
         studiHomoAssoc[matrikel] = studi;
-    
-            _response.setHeader("Access-Control-Allow-Origin", "*");
+     
             _response.write("Daten empfangen");
             _response.end();
             }
@@ -107,8 +113,7 @@ namespace Server {
             line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             console.log(line);
-            let data: string = JSON.stringify(line);
-            _response.setHeader("Access-Control-Allow-Origin", "*");
+            let data: string = JSON.stringify(line);           
             _response.write(data);
             _response.end();
             }
