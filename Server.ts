@@ -10,7 +10,7 @@ namespace Server {
     interface Studi {
         name: string;
         firstname: string;
-        studyPath: string;          //Studiengang
+        studyPath: string;          //studyPath
         matrikel: number;
         age: number;
         gender: boolean;
@@ -21,17 +21,18 @@ namespace Server {
          [matrikel: string]: Studi; 
     }
 
-    // Simples Array zum Speichern der Studi-Datensätze -> wird jetzt ersetzt durch SERVER!!!!!!!!!!!!!
+    // Simples Array zum Speichern der Studi-Datensï¿½tze -> wird jetzt ersetzt durch SERVER!!!!!!!!!!!!!
     // export let studiSimpleArray: Studi[] = [];
     
     // Homogenes assoziatives Array zur Speicherung einer Person unter der Matrikelnummer -> wird jetzt ersetzt durch SERVER!!!!!!!!!!!!!
-    // export let studiHomoAssoc: Studis = {};
+    let studiHomoAssoc: Studis = {};
+
     
 
 
-    let port: number = process.env.PORT; // Environment für Port erstellen
+    let port: number = process.env.PORT; // Environment fï¿½r Port erstellen
     if (port == undefined) // wenn Port undefined dann
-        port = 8100;        // setze ihn auf port 8100 -> überschreibe Aufg4_Code1
+        port = 8100;        // setze ihn auf port 8100 -> ï¿½berschreibe Aufg4_Code1
 
     let server: Http.Server = Http.createServer();
     server.addListener("listening", handleListen);
@@ -49,29 +50,30 @@ namespace Server {
         //let a: number = parseInt(query["a"]); das ist Aufg4_Code1
         //let b: number = parseInt(query["b"]);
         
-        // Switch Abfrage um richtige function starten zu können
+        // Switch Abfrage um richtige function starten zu kï¿½nnen
         console.log(query["cmd"]); //cmd = short for command
-        if (query ["cmd"]) { // if abfrage wenn cmd true dann entsprechnenden case ausführen
+        if (query ["cmd"]) { // if abfrage wenn cmd true dann entsprechnenden case ausfï¿½hren
             switch (query ["cmd"]) {
                 case "insert":
-                    insert();
+                    insert(query, _response);
                     break;
                     
                 case "refreh":
-                    refresh();
+                    refresh( _response);
                     break;
                     
                 case "search":
-                    search();
+                    (query, _response);
                     break;
                     
                 default:
                     flaw();
                 }
             }
+        }
         // case functions Aufrufe
         // case insert
-       function insert(/*_event: Event*/): void {
+       function insert(query: AssocStringString, _response: Http.ServerResponse): void {
         let obj: Studi = JSON.parse(query["data"]);
             let _name: string = obj.name;
             let _firstname: string = obj.firstname;  
@@ -86,7 +88,7 @@ namespace Server {
                 matrikel: parseInt(matrikel),
                 age: _age,
                 gender: _gender,
-                studiengang: _studyPath
+                studyPath: _studyPath
             };
 
         studiHomoAssoc[matrikel] = studi;
@@ -95,10 +97,9 @@ namespace Server {
             _response.write("Daten empfangen");
             _response.end();
             }
-        // Datensatz im assoziativen Array unter der Matrikelnummer speichern
-        studiHomoAssoc[matrikel] = studi;
+        
 
-        function refresh(): void {
+        function refresh(_response: Http.ServerResponse): void {
             console.log(studiHomoAssoc);
             for (let matrikel in studiHomoAssoc) {  
             let studi: Studi = studiHomoAssoc[matrikel];
@@ -112,11 +113,20 @@ namespace Server {
             _response.end();
             }
        } 
-        function error(): void {
-            alert("Error"); 
-        }
 
-        
-    }
-}
+        function search(query: AssocStringString, _response: Http.ServerResponse): void {
+                let studi: Studi = studiHomoAssoc[query["searchFor"]];
+                if (studi) {
+                    let line: string = query["searchFor"] + ": ";
+                    line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+                    line += studi.gender ? "(M)" : "(F)";
+                    _response.write(line);
+                    } else {
+                        _response.write("No match found");    
+                    }    
+        }
+        function flaw(): void {
+            alert("Error"); 
+        }        
+    
 }
