@@ -30,7 +30,7 @@ var Server;
                     search(query, _response);
                     break;
                 default:
-                    error();
+                    flaw();
             }
         }
         _response.end();
@@ -78,8 +78,8 @@ var Server;
             _response.write("No match found");
         }
     }
-    function error() {
-        alert("Error");
+    function flaw() {
+        alert("flaw");
     }
 })(Server || (Server = {}));
 //# sourceMappingURL=Server.js.map

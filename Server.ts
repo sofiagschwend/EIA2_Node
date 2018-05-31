@@ -14,7 +14,7 @@ namespace Server {
         matrikel: number;
         age: number;
         gender: boolean; 
-        studyPath: string;      
+        studyPath: string;      //studyPath
     }
 
     // Homogenes assoziatives Array, in dem der Matrikelnummer die Daten aus dem Interface Studi zugeodrnet werden
@@ -55,7 +55,7 @@ namespace Server {
                     break;
                
                 default: 
-                    error();
+                    flaw();
             } 
         }
         _response.end();    
@@ -107,8 +107,8 @@ namespace Server {
             }    
     }
         
-    function error(): void {
-            alert("Error"); 
+    function flaw(): void {
+            alert("flaw"); 
     }        
     
 }
