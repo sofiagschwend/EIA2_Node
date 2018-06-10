@@ -1,7 +1,4 @@
-/**
- * Simple database insertion and query for MongoDB
- * @author: Jirka Dell'Oro-Friedl
- */
+
 import * as Mongo from "mongodb";
 console.log("Database starting");
 
@@ -31,7 +28,7 @@ function handleConnect(_e: Mongo.MongoError, _db: Mongo.Db): void {
     }
 }
 
-export function insert(_doc: StudentData): void {
+export function insert(_doc: Studi): void {
     students.insertOne(_doc, handleInsert);
 }
 
@@ -44,7 +41,7 @@ export function findAll(_callback: Function): void {
     var cursor: Mongo.Cursor = students.find();
     cursor.toArray(prepareAnswer);
 
-    function prepareAnswer(_e: Mongo.MongoError, studentArray: StudentData[]): void {
+    function prepareAnswer(_e: Mongo.MongoError, studentArray: Studi[]): void {
         if (_e)
             _callback("Error" + _e);
         else
